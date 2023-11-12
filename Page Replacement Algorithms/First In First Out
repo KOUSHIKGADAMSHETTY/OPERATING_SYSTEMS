@@ -1,0 +1,56 @@
+#include <stdio.h>
+
+void display(int fr[], int frsize);
+int isPageInFrame(int page, int fr[], int frsize);
+int getReplacementIndex(int fr[], int frsize, int top);
+
+int main() {
+    int i, j, page[12] = {2, 3, 2, 1, 5, 2, 4, 5, 3, 2, 5, 2};
+    int pf = 0, frsize = 3, top = 0;
+    int fr[frsize];
+
+    for (i = 0; i < frsize; i++) {
+        fr[i] = -1;
+    }
+
+    for (j = 0; j < 12; j++) {
+        if (isPageInFrame(page[j], fr, frsize) == -1) {
+            int replacementIndex = getReplacementIndex(fr, frsize, top);
+            fr[replacementIndex] = page[j];
+            pf++;
+            top = (top + 1) % frsize;
+        }
+        display(fr, frsize);
+    }
+
+    printf("Number of page faults: %d\n", pf);
+    return 0;
+}
+
+int isPageInFrame(int page, int fr[], int frsize) {
+    for (int i = 0; i < frsize; i++) {
+        if (fr[i] == page) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int getReplacementIndex(int fr[], int frsize, int top) {
+    if (fr[top] == -1) {
+        return top;
+    }
+    for (int i = 0; i < frsize; i++) {
+        if (fr[i] == -1) {
+            return i;
+        }
+    }
+    return top;
+}
+
+void display(int fr[], int frsize) {
+    printf("\n");
+    for (int i = 0; i < frsize; i++) {
+        printf("%d\t", fr[i]);
+    }
+}
