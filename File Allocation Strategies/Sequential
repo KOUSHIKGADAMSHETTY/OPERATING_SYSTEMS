@@ -1,0 +1,37 @@
+#include <stdio.h>
+
+int main() {
+    int f[50];
+    int i, st, j, len, c, k;
+
+    clrscr();
+
+    for (i = 0; i < 50; i++) {
+        f[i] = 0;
+    }
+
+    do {
+        printf("\nEnter the starting block and length of the file: ");
+        scanf("%d %d", &st, &len);
+
+        for (j = st; j < (st + len); j++) {
+            if (f[j] == 0) {
+                f[j] = 1;
+                printf("%d->%d\n", j, f[j]);
+            } else {
+                printf("Block already allocated\n");
+                break;
+            }
+        }
+
+        if (j == (st + len)) {
+            printf("The file is allocated to disk\n");
+        }
+
+        printf("Do you want to enter more files? (1-yes / 0-no): ");
+        scanf("%d", &c);
+    } while (c == 1);
+
+    getch();
+    return 0;
+}
